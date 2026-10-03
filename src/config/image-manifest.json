@@ -1,0 +1,167 @@
+{
+  "hero": {
+    "width": 2000,
+    "height": 1333,
+    "sources": [
+      {
+        "src": "/images/hero-2000.webp",
+        "width": 2000
+      },
+      {
+        "src": "/images/hero-1100.webp",
+        "width": 1100
+      }
+    ],
+    "unsplashId": "1605296867304-46d5465a13f1"
+  },
+  "club-main": {
+    "width": 1200,
+    "height": 1501,
+    "sources": [
+      {
+        "src": "/images/club-main-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/club-main-700.webp",
+        "width": 700
+      }
+    ],
+    "unsplashId": "1541534741688-6078c6bfb5c5"
+  },
+  "club-detail": {
+    "width": 1000,
+    "height": 667,
+    "sources": [
+      {
+        "src": "/images/club-detail-1000.webp",
+        "width": 1000
+      },
+      {
+        "src": "/images/club-detail-600.webp",
+        "width": 600
+      }
+    ],
+    "unsplashId": "1583454110551-21f2fa2afe61"
+  },
+  "program-strength": {
+    "width": 1400,
+    "height": 1050,
+    "sources": [
+      {
+        "src": "/images/program-strength-1400.webp",
+        "width": 1400
+      },
+      {
+        "src": "/images/program-strength-800.webp",
+        "width": 800
+      }
+    ],
+    "unsplashId": "1517836357463-d25dfeac3438"
+  },
+  "program-conditioning": {
+    "width": 1400,
+    "height": 1050,
+    "sources": [
+      {
+        "src": "/images/program-conditioning-1400.webp",
+        "width": 1400
+      },
+      {
+        "src": "/images/program-conditioning-800.webp",
+        "width": 800
+      }
+    ],
+    "unsplashId": "1599058917212-d750089bc07e"
+  },
+  "program-personal": {
+    "width": 1400,
+    "height": 1050,
+    "sources": [
+      {
+        "src": "/images/program-personal-1400.webp",
+        "width": 1400
+      },
+      {
+        "src": "/images/program-personal-800.webp",
+        "width": 800
+      }
+    ],
+    "unsplashId": "1574680096145-d05b474e2155"
+  },
+  "program-mobility": {
+    "width": 1400,
+    "height": 1050,
+    "sources": [
+      {
+        "src": "/images/program-mobility-1400.webp",
+        "width": 1400
+      },
+      {
+        "src": "/images/program-mobility-800.webp",
+        "width": 800
+      }
+    ],
+    "unsplashId": "1518611012118-696072aa579a"
+  },
+  "space-main": {
+    "width": 2000,
+    "height": 1333,
+    "sources": [
+      {
+        "src": "/images/space-main-2000.webp",
+        "width": 2000
+      },
+      {
+        "src": "/images/space-main-1100.webp",
+        "width": 1100
+      }
+    ],
+    "unsplashId": "1637666062717-1c6bcfa4a4df"
+  },
+  "space-floor": {
+    "width": 1400,
+    "height": 934,
+    "sources": [
+      {
+        "src": "/images/space-floor-1400.webp",
+        "width": 1400
+      },
+      {
+        "src": "/images/space-floor-800.webp",
+        "width": 800
+      }
+    ],
+    "unsplashId": "1593079831268-3381b0db4a77"
+  },
+  "space-rack": {
+    "width": 1000,
+    "height": 1250,
+    "sources": [
+      {
+        "src": "/images/space-rack-1000.webp",
+        "width": 1000
+      },
+      {
+        "src": "/images/space-rack-600.webp",
+        "width": 600
+      }
+    ],
+    "unsplashId": "1576678927484-cc907957088c"
+  },
+  "cta": {
+    "width": 2000,
+    "height": 1333,
+    "sources": [
+      {
+        "src": "/images/cta-2000.webp",
+        "width": 2000
+      },
+      {
+        "src": "/images/cta-1100.webp",
+        "width": 1100
+      }
+    ],
+    "unsplashId": "1581009146145-b5ef050c2e1e"
+  }
+}

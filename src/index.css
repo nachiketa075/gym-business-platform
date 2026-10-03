@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-ink-2: #121212;
+  --color-ink-3: #1b1b1b;
+  --color-line: #2a2a2a;
+  --color-mute: #a1a1a1;
+  --color-lime: #a6ea05;
+  --color-lime-dim: #8fcc04;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-padding-top: 5rem;
+  font-size: 100%;
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink);
+  color: #fff;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+}
+.on-lime :focus-visible { outline-color: #0a0a0a; }
+
+::selection { background: var(--color-lime); color: #0a0a0a; }
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.005em;
+}
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-lime);
+}
+
+dialog::backdrop { background: rgb(0 0 0 / 0.78); }
+dialog[open] { animation: none; }
+
+.hero-photo { --hero-mask: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%); }
+@media (min-width: 1024px) {
+  .hero-photo { --hero-mask: linear-gradient(to right, transparent 0%, #000 22%); }
+}
+
+.cta-media { --cta-mask: none; }
+@media (min-width: 1024px) {
+  .cta-media { --cta-mask: linear-gradient(to right, transparent 0%, #000 35%); mask-image: var(--cta-mask); -webkit-mask-image: var(--cta-mask); }
+}
+
+/* Hero headline: fits "BUILD YOUR" on the narrowest phones and never outgrows short (landscape) viewports. */
+.hero-title { font-size: clamp(3rem, min(calc((100vw - 2.5rem) / 4.35), 24svh), 7.5rem); }
+@media (min-width: 640px) { .hero-title { font-size: clamp(5rem, min(17vw, 26svh), 11rem); } }
+@media (min-width: 1024px) { .hero-title { font-size: clamp(6rem, min(12.2vw, 27svh), 13.5rem); } }
+
+/* Large monitors: scale the rem base so type, spacing and the content column grow together. */
+@media (min-width: 1920px) { html { font-size: 112.5%; } }
+@media (min-width: 2560px) { html { font-size: 137.5%; } }
