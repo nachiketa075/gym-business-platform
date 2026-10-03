@@ -22,8 +22,8 @@ export function Space() {
   const y = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['-6%', '6%'])
 
   return (
-    <section id="space" className="px-0 py-24 sm:py-32 lg:py-40">
-      <div className="mx-auto max-w-[105rem] px-5 sm:px-8 lg:px-12">
+    <section id="space" tabIndex={-1} data-nav-target className="px-0 py-24 sm:py-32 lg:py-40">
+      <div data-anchor className="mx-auto max-w-[105rem] px-5 sm:px-8 lg:px-12">
         <SectionHead index="03" label="The training space" lines={['Room to','work']} />
       </div>
 

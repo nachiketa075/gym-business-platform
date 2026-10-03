@@ -20,8 +20,8 @@ export function Intro() {
   const y2 = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-18, 18])
 
   return (
-    <section id="club" className="relative px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-44">
-      <div ref={ref} className="mx-auto grid max-w-[105rem] gap-16 lg:grid-cols-12 lg:gap-10">
+    <section id="club" tabIndex={-1} data-nav-target className="relative px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-44">
+      <div ref={ref} data-anchor className="mx-auto grid max-w-[105rem] gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="relative self-start lg:col-span-5">
           <ImageReveal>
             <div className="group relative overflow-hidden">

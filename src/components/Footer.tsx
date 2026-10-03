@@ -2,7 +2,7 @@ import { ArrowUp } from 'lucide-react'
 import { brand, contact, mapUrl, nav, videos } from '../config/site'
 import { useEnquiry } from '../lib/enquiry'
 import { navigate } from '../lib/route'
-import { goTo } from '../lib/scroll'
+import { navTo } from '../lib/scroll'
 import { Button } from './Button'
 import { AmbientVideo } from './AmbientVideo'
 import { LineReveal } from './LineReveal'
@@ -72,10 +72,7 @@ export function Footer() {
               <li key={n.id}>
                 <a
                   href={`#${n.id}`}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    goTo(n.id)
-                  }}
+                  onClick={navTo(n.id)}
                   className="inline-flex min-h-11 min-w-11 items-center text-white/80 transition-colors hover:text-lime"
                 >
                   {n.label}
@@ -94,7 +91,7 @@ export function Footer() {
           </ul>
         </nav>
 
-        <div className="md:col-span-4">
+        <div id="contact" tabIndex={-1} data-nav-target className="md:col-span-4">
           <h2 className="eyebrow">Contact</h2>
           <address className="mt-4 space-y-1 not-italic text-white/80">
             {contact.phones.map((p) => (
@@ -141,13 +138,13 @@ export function Footer() {
 
       <div className="mx-auto mt-14 flex max-w-[105rem] flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-line pt-6 text-sm text-mute">
         <p>© {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
-        <button
-          type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        <a
+          href="#top"
+          onClick={navTo('top')}
           className="inline-flex min-h-11 items-center gap-2 whitespace-nowrap uppercase tracking-widest transition-colors hover:text-lime"
         >
           Back to top <ArrowUp aria-hidden className="size-4" />
-        </button>
+        </a>
       </div>
     </footer>
   )

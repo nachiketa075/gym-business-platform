@@ -20,8 +20,8 @@ export function Membership() {
   const best = durations.reduce((a, b) => (priceFor(m, b).perMonth < priceFor(m, a).perMonth ? b : a))
 
   return (
-    <section id="membership" className="bg-ink-2 px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
-      <div className="mx-auto max-w-[105rem]">
+    <section id="membership" tabIndex={-1} data-nav-target className="bg-ink-2 px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
+      <div data-anchor className="mx-auto max-w-[105rem]">
         <div className="flex flex-col gap-10 xl:flex-row xl:items-end xl:justify-between">
           <SectionHead index="04" label="Membership" lines={['Choose how', 'you train']} />
           <Reveal delay={0.1}>

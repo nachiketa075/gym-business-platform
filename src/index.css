@@ -77,3 +77,7 @@ dialog[open] { animation: none; }
 /* Large monitors: scale the rem base so type, spacing and the content column grow together. */
 @media (min-width: 1920px) { html { font-size: 112.5%; } }
 @media (min-width: 2560px) { html { font-size: 137.5%; } }
+
+/* Sections receive focus after in-page navigation so the next Tab starts inside them. They are not controls, so no ring. */
+[data-nav-target]:focus,
+[data-nav-target]:focus-visible { outline: none; }

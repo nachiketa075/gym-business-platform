@@ -2,8 +2,8 @@ import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { useEnquiry } from '../lib/enquiry'
-import { goTo } from '../lib/scroll'
-import { Button } from './Button'
+import { navTo } from '../lib/scroll'
+import { Button, LinkButton } from './Button'
 import { LineReveal } from './LineReveal'
 import { Picture } from './Picture'
 
@@ -23,7 +23,7 @@ export function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const parallax = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['0%', '9%'])
   return (
-    <section ref={ref} id="top" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[#050505]">
+    <section ref={ref} id="top" tabIndex={-1} data-nav-target className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[#050505]">
       {/* Photograph: the source is near-black at its edges, so it dissolves into the page on the left. */}
       <motion.div
         aria-hidden={false}
@@ -70,9 +70,9 @@ export function Hero() {
             </motion.p>
             <motion.div {...item(4)} className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Button onClick={() => open()}>Book a trial</Button>
-              <Button variant="ghost" arrow={false} onClick={() => goTo('programs')}>
+              <LinkButton href="#programs" variant="ghost" arrow={false} onClick={navTo('programs')}>
                 Explore programs
-              </Button>
+              </LinkButton>
             </motion.div>
           </div>
 
@@ -86,15 +86,15 @@ export function Hero() {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() => goTo('club')}
+      <a
+        href="#club"
+        onClick={navTo('club')}
         aria-label="Scroll to the club introduction"
         className="absolute bottom-6 right-5 hidden size-12 place-items-center border border-white/30 transition-colors hover:border-lime hover:text-lime sm:grid lg:right-12"
         style={{ bottom: '5.5rem' }}
       >
         <ChevronDown aria-hidden className="size-5" />
-      </button>
+      </a>
     </section>
   )
 }

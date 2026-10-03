@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react'
 import { nav } from '../config/site'
 import { useEnquiry } from '../lib/enquiry'
 import { navigate } from '../lib/route'
-import { goTo } from '../lib/scroll'
+import { goTo, isModifiedClick } from '../lib/scroll'
 import { Button } from './Button'
 import { Logo } from './Logo'
 
@@ -70,10 +70,21 @@ export function Header() {
     }
   }, [menu])
 
-  const link = (id: string) => (e: React.MouseEvent) => {
-    e.preventDefault()
+  const closeMenu = () => {
+    document.documentElement.style.overflow = '' // release the scroll lock now, so the scroll below is never fought by it
     setMenu(false)
-    requestAnimationFrame(() => setTimeout(() => goTo(id), 30))
+  }
+
+  /** In-page link. Modified clicks keep native behaviour; from the mobile menu, close it first and scroll on the next frame. */
+  const link = (id: string) => (e: React.MouseEvent) => {
+    if (isModifiedClick(e)) return
+    e.preventDefault()
+    if (menu) {
+      closeMenu()
+      requestAnimationFrame(() => goTo(id))
+    } else {
+      goTo(id)
+    }
   }
 
   return (
@@ -85,11 +96,7 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-[105rem] items-center justify-between px-5 sm:px-8 lg:h-20 lg:px-12">
         <a
           href="#top"
-          onClick={(e) => {
-            e.preventDefault()
-            setMenu(false)
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-          }}
+          onClick={link('top')}
           aria-label="FIT NATION, back to top"
         >
           <Logo />
@@ -173,7 +180,7 @@ export function Header() {
             <Button
               className="mt-8 w-full"
               onClick={() => {
-                setMenu(false)
+                closeMenu()
                 open()
               }}
             >
@@ -182,7 +189,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => {
-                setMenu(false)
+                closeMenu()
                 navigate('/login')
               }}
               className="mt-3 inline-flex min-h-12 w-full items-center justify-center border border-white/40 text-sm font-semibold uppercase tracking-[0.12em] transition-colors hover:border-lime hover:text-lime"

@@ -11,8 +11,8 @@ export function Faq() {
   const reduce = useReducedMotion()
 
   return (
-    <section id="faq" className="px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
-      <div className="mx-auto grid max-w-[105rem] gap-14 xl:grid-cols-12">
+    <section id="faq" tabIndex={-1} data-nav-target className="px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
+      <div data-anchor className="mx-auto grid max-w-[105rem] gap-14 xl:grid-cols-12">
         <div className="xl:col-span-5">
           <SectionHead index="05" label="FAQ" lines={['Good','questions']} />
         </div>

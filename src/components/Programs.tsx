@@ -28,8 +28,8 @@ export function Programs() {
   }
 
   return (
-    <section id="programs" className="bg-ink-2 px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
-      <div className="mx-auto max-w-[105rem]">
+    <section id="programs" tabIndex={-1} data-nav-target className="bg-ink-2 px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
+      <div data-anchor className="mx-auto max-w-[105rem]">
         <SectionHead index="02" label="Training programs" lines={['Pick your','discipline']} lineClassNames={['','text-lime']} />
 
         <div className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-12 lg:gap-12">

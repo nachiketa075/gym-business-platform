@@ -14,7 +14,7 @@ export function SectionHead({
   lineClassNames?: string[]
 }) {
   return (
-    <div>
+    <div data-heading>
       <Reveal className="flex items-center gap-4">
         <span className="eyebrow">{index}</span>
         <span aria-hidden className="h-px w-10 bg-lime/60" />

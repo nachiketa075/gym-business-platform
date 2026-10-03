@@ -294,7 +294,7 @@ function FeeEditor() {
           <Button variant="ghost" arrow={false} onClick={() => { setPriceOverrides(null); setDraft({}); setErr(''); setMsg('Fees reset to the defaults.') }} disabled={!hasOverrides() && Object.keys(draft).length === 0}>
             Reset to defaults
           </Button>
-          <button type="button" onClick={() => { navigate('/'); setTimeout(() => document.getElementById('membership')?.scrollIntoView(), 100) }} className="min-h-11 text-sm font-semibold uppercase tracking-[0.12em] text-lime hover:text-white">
+          <button type="button" onClick={() => navigate('/', 'membership')} className="min-h-11 text-sm font-semibold uppercase tracking-[0.12em] text-lime hover:text-white">
             View on website
           </button>
         </div>
