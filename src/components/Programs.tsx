@@ -5,6 +5,7 @@ import { programs } from '../config/site'
 import { useEnquiry } from '../lib/enquiry'
 import { Button } from './Button'
 import { Picture } from './Picture'
+import { AutoHeight } from './AutoHeight'
 import { SectionHead } from './SectionHead'
 import { Reveal } from './Reveal'
 
@@ -28,11 +29,11 @@ export function Programs() {
   }
 
   return (
-    <section id="programs" tabIndex={-1} data-nav-target className="bg-ink-2 px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
+    <section id="programs" tabIndex={-1} data-nav-target className="section-y section-blend px-5 sm:px-8 lg:px-12">
       <div data-anchor className="mx-auto max-w-[105rem]">
         <SectionHead index="02" label="Training programs" lines={['Pick your','discipline']} lineClassNames={['','text-lime']} />
 
-        <div className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-12 lg:gap-12">
+        <div className="section-head-gap grid gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal className="self-start lg:sticky lg:top-28 lg:col-span-5">
             <div role="tablist" aria-label="Training programs" aria-orientation="vertical" onKeyDown={onKey} className="border-y border-line">
               {programs.map((pr, n) => {
@@ -49,7 +50,7 @@ export function Programs() {
                     aria-controls="program-panel"
                     tabIndex={on ? 0 : -1}
                     onClick={() => setI(n)}
-                    className={`group relative flex min-h-20 w-full items-center justify-between gap-4 border-b border-line px-1 py-4 text-left transition-colors last:border-b-0 sm:px-3 ${
+                    className={`group relative flex min-h-20 w-full items-center justify-between gap-4 border-b border-line px-1 py-4 text-left transition-[color,opacity] last:border-b-0 active:opacity-70 sm:px-3 ${
                       on ? 'text-lime' : 'text-white/60 hover:text-white'
                     }`}
                   >
@@ -67,7 +68,8 @@ export function Programs() {
             </div>
           </Reveal>
 
-          <div className="lg:col-span-7">
+          <Reveal delay={0.12} className="lg:col-span-7">
+            <AutoHeight>
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={p.id}
@@ -81,7 +83,7 @@ export function Programs() {
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
                 <motion.div
-                  className="group relative overflow-hidden"
+                  className="rounded-media group relative"
                   initial={reduce ? false : { clipPath: 'inset(0 100% 0 0)' }}
                   animate={{ clipPath: 'inset(0 0% 0 0)' }}
                   transition={{ duration: 0.8, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
@@ -92,7 +94,7 @@ export function Programs() {
                     sizes="(min-width:1024px) 58vw, 100vw"
                     className="aspect-[4/3] w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.03] sm:aspect-[16/10]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+                  <div className="absolute inset-0 rounded-[inherit] bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                   <p className="eyebrow absolute bottom-4 left-4 !text-white sm:bottom-6 sm:left-6">{p.kicker}</p>
                 </motion.div>
 
@@ -126,7 +128,8 @@ export function Programs() {
                 </Button>
               </motion.div>
             </AnimatePresence>
-          </div>
+            </AutoHeight>
+          </Reveal>
         </div>
       </div>
     </section>

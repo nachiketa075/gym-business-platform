@@ -41,22 +41,44 @@ const field =
 export function EnquiryDialog() {
   const { isOpen, preset, close } = useEnquiry()
   const ref = useRef<HTMLDialogElement>(null)
+  const openRef = useRef(isOpen)
+  const [closing, setClosing] = useState(false)
+  openRef.current = isOpen
+
+  /** The native dialog is only closed once the panel has finished leaving, so the exit actually plays. */
+  const finishClose = () => {
+    if (openRef.current) return // re-opened while it was leaving
+    const d = ref.current
+    if (d?.open) d.close() // also hands focus back to whatever opened it
+    document.documentElement.style.overflow = ''
+    setClosing(false)
+  }
 
   useEffect(() => {
     const d = ref.current
     if (!d) return
-    if (isOpen && !d.open) {
-      d.showModal()
-      document.documentElement.style.overflow = 'hidden'
+    if (isOpen) {
+      setClosing(false)
+      if (!d.open) {
+        d.showModal()
+        document.documentElement.style.overflow = 'hidden'
+      }
+      return
     }
-    if (!isOpen && d.open) d.close()
-    if (!isOpen) document.documentElement.style.overflow = ''
+    if (d.open) {
+      setClosing(true)
+      // Safety net: never leave the page locked if the exit animation does not report back.
+      const t = window.setTimeout(finishClose, 700)
+      return () => window.clearTimeout(t)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 
   return (
     <dialog
       ref={ref}
       aria-labelledby="enquiry-title"
+      data-closing={closing ? '' : undefined}
       onCancel={(e) => {
         e.preventDefault()
         close()
@@ -66,7 +88,7 @@ export function EnquiryDialog() {
       }}
       className="m-auto max-h-[100dvh] w-full max-w-xl overflow-y-auto border border-line bg-ink p-0 text-white backdrop:bg-black/80 max-sm:m-0 max-sm:h-[100dvh] max-sm:max-w-none"
     >
-      <AnimatePresence>{isOpen && <EnquiryForm key="form" preset={preset} onClose={close} />}</AnimatePresence>
+      <AnimatePresence onExitComplete={finishClose}>{isOpen && <EnquiryForm key="form" preset={preset} onClose={close} />}</AnimatePresence>
     </dialog>
   )
 }
@@ -118,6 +140,7 @@ function EnquiryForm({ preset, onClose }: { preset: { program?: string; plan?: s
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 14, transition: { duration: 0.22, ease: 'easeIn' } }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="relative p-6 sm:p-10"
     >

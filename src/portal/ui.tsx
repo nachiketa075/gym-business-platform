@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { motion } from 'motion/react'
+import { Reveal } from '../components/Reveal'
 import type { Status } from './data'
 
 export const field =
@@ -22,13 +22,7 @@ export function StatusChip({ status }: { status: Status }) {
 
 export function Block({ title, kicker, children, action }: { title: string; kicker?: string; children: ReactNode; action?: ReactNode }) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '0px 0px -8% 0px' }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="border-t border-line pt-8"
-    >
+    <Reveal as="section" className="border-t border-line pt-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           {kicker && <p className="eyebrow">{kicker}</p>}
@@ -37,7 +31,7 @@ export function Block({ title, kicker, children, action }: { title: string; kick
         {action}
       </div>
       <div className="mt-6">{children}</div>
-    </motion.section>
+    </Reveal>
   )
 }
 

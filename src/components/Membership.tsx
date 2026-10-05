@@ -20,7 +20,7 @@ export function Membership() {
   const best = durations.reduce((a, b) => (priceFor(m, b).perMonth < priceFor(m, a).perMonth ? b : a))
 
   return (
-    <section id="membership" tabIndex={-1} data-nav-target className="bg-ink-2 px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
+    <section id="membership" tabIndex={-1} data-nav-target className="section-y section-blend px-5 sm:px-8 lg:px-12">
       <div data-anchor className="mx-auto max-w-[105rem]">
         <div className="flex flex-col gap-10 xl:flex-row xl:items-end xl:justify-between">
           <SectionHead index="04" label="Membership" lines={['Choose how', 'you train']} />
@@ -44,8 +44,8 @@ export function Membership() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-10 lg:mt-20 xl:grid-cols-12 xl:gap-12">
-          <div className="xl:col-span-4">
+        <div className="section-head-gap grid gap-10 xl:grid-cols-12 xl:gap-12">
+          <Reveal className="xl:col-span-4">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={m.id}
@@ -66,7 +66,7 @@ export function Membership() {
                 </ul>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </Reveal>
 
           <div className="xl:col-span-8">
             <div className="grid gap-px bg-line sm:grid-cols-2 xl:grid-cols-4">
@@ -77,7 +77,7 @@ export function Membership() {
                   <Reveal
                     key={d}
                     delay={n * 0.07}
-                    className={`flex flex-col p-7 sm:p-8 ${isBest ? 'on-lime bg-lime text-ink' : 'bg-ink'}`}
+                    className={`flex flex-col p-7 sm:p-8 ${isBest ? 'card-hover card-hover-lime on-lime bg-lime text-ink' : 'card-hover bg-ink'}`}
                   >
                     <div className="flex min-h-7 items-center justify-between gap-2">
                       <h4 className="display text-4xl">{durationLabel(d)}</h4>
@@ -110,14 +110,20 @@ export function Membership() {
                       </p>
                     </div>
 
-                    <div className={`mt-5 flex-1 space-y-1 text-sm ${isBest ? 'text-ink/85' : 'text-white/75'}`}>
+                    <motion.div
+                      key={m.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.35, ease }}
+                      className={`mt-5 flex-1 space-y-1 text-sm ${isBest ? 'text-ink/85' : 'text-white/75'}`}
+                    >
                       <p className="font-semibold">
                         {d === 1 ? 'Pay month to month' : `${formatINR(price.perMonth)} per month`}
                       </p>
                       {price.saving > 0 && (
                         <p className={isBest ? 'text-ink/75' : 'text-mute'}>Save {formatINR(price.saving)} vs. paying monthly</p>
                       )}
-                    </div>
+                    </motion.div>
 
                     <Button
                       variant={isBest ? 'dark' : 'ghost'}
@@ -131,10 +137,10 @@ export function Membership() {
                 )
               })}
             </div>
-            <p className="mt-6 text-sm text-mute">
+            <Reveal as="p" variant="fade" delay={0.2} className="mt-6 text-sm text-mute">
               Prices in INR. Gym membership and personal training are separate options. Personal training prices are
               placeholders until confirmed by the club.
-            </p>
+            </Reveal>
           </div>
         </div>
       </div>

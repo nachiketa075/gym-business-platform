@@ -11,16 +11,16 @@ import { Reveal } from './Reveal'
 export function FinalCta() {
   const { open } = useEnquiry()
   return (
-    <section aria-labelledby="cta-title" className="relative isolate overflow-hidden px-5 py-28 sm:px-8 sm:py-40 lg:px-12 lg:py-56">
+    <section aria-labelledby="cta-title" className="section-y-cta relative isolate overflow-hidden px-5 sm:px-8 lg:px-12">
       <div className="cta-media absolute inset-y-0 right-0 -z-10 w-full lg:w-[75%]">
         <AmbientVideo
           src={videos.press.src}
           poster={videos.press.poster}
-          label="gym training video"
           className="size-full object-cover"
-          controlClassName="bottom-5 right-5 sm:bottom-8 sm:right-8 lg:right-12"
         />
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-ink/55 lg:bg-ink/20" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[clamp(5rem,16vw,11rem)] bg-gradient-to-b from-ink to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[clamp(5rem,16vw,11rem)] bg-gradient-to-t from-ink to-transparent" />
       </div>
       <div className="mx-auto max-w-[105rem]">
         <Reveal>
@@ -55,17 +55,17 @@ export function Footer() {
   )
 
   return (
-    <footer className="border-t border-line bg-ink px-5 pb-8 pt-16 sm:px-8 lg:px-12">
+    <footer className="bg-ink px-5 pb-8 pt-16 sm:px-8 sm:pt-20 lg:px-12">
       <div className="mx-auto grid max-w-[105rem] gap-12 md:grid-cols-12">
-        <div className="md:col-span-5">
+        <Reveal className="md:col-span-5">
           <img src="/brand/fitnation-logo.png" width={560} height={433} alt={brand.name} loading="lazy" className="h-auto w-40 sm:w-48" />
           <p className="mt-5 max-w-xs leading-relaxed text-mute">{brand.tagline}. Weight training, cardio, CrossFit, steam room and personal training in {contact.area}.</p>
           <Button variant="ghost" className="mt-6" onClick={() => open()}>
             Book a trial
           </Button>
-        </div>
+        </Reveal>
 
-        <nav aria-label="Footer" className="md:col-span-3">
+        <Reveal as="nav" aria-label="Footer" delay={0.08} className="md:col-span-3">
           <h2 className="eyebrow">Explore</h2>
           <ul className="mt-5 space-y-1">
             {nav.map((n) => (
@@ -89,9 +89,9 @@ export function Footer() {
               </button>
             </li>
           </ul>
-        </nav>
+        </Reveal>
 
-        <div id="contact" tabIndex={-1} data-nav-target className="md:col-span-4">
+        <Reveal id="contact" tabIndex={-1} data-nav-target delay={0.16} className="md:col-span-4">
           <h2 className="eyebrow">Contact</h2>
           <address className="mt-4 space-y-1 not-italic text-white/80">
             {contact.phones.map((p) => (
@@ -133,7 +133,7 @@ export function Footer() {
               ))}
             </ul>
           )}
-        </div>
+        </Reveal>
       </div>
 
       <div className="mx-auto mt-14 flex max-w-[105rem] flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-line pt-6 text-sm text-mute">

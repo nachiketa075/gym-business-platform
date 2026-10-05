@@ -11,17 +11,17 @@ export function Faq() {
   const reduce = useReducedMotion()
 
   return (
-    <section id="faq" tabIndex={-1} data-nav-target className="px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-40">
-      <div data-anchor className="mx-auto grid max-w-[105rem] gap-14 xl:grid-cols-12">
+    <section id="faq" tabIndex={-1} data-nav-target className="section-y px-5 sm:px-8 lg:px-12">
+      <div data-anchor className="mx-auto grid max-w-[105rem] gap-x-12 gap-y-[var(--space-head)] xl:grid-cols-12">
         <div className="xl:col-span-5">
           <SectionHead index="05" label="FAQ" lines={['Good','questions']} />
         </div>
-        <Reveal delay={0.1} className="xl:col-span-7">
+        <div className="xl:col-span-7">
           <div className="border-t border-line">
             {faqs.map((f, i) => {
               const on = openIdx === i
               return (
-                <div key={f.q} className="border-b border-line">
+                <Reveal key={f.q} delay={0.08 + i * 0.07} className="border-b border-line">
                   <h3>
                     <button
                       type="button"
@@ -29,7 +29,7 @@ export function Faq() {
                       aria-expanded={on}
                       aria-controls={`${uid}-p${i}`}
                       onClick={() => setOpenIdx(on ? null : i)}
-                      className="flex min-h-20 w-full items-center justify-between gap-6 py-5 text-left transition-colors hover:text-lime"
+                      className="flex min-h-20 w-full items-center justify-between gap-6 py-5 text-left transition-[color,opacity] hover:text-lime active:opacity-70"
                     >
                       <span className="display text-3xl sm:text-4xl">{f.q}</span>
                       <span className="grid size-10 shrink-0 place-items-center border border-line">
@@ -52,11 +52,11 @@ export function Faq() {
                   >
                     <p className="max-w-2xl pb-6 leading-relaxed text-white/75">{f.a}</p>
                   </motion.div>
-                </div>
+                </Reveal>
               )
             })}
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   )

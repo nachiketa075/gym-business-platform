@@ -1,7 +1,8 @@
-import { MotionConfig } from 'motion/react'
+import { motion, MotionConfig } from 'motion/react'
 import { EnquiryProvider } from './lib/enquiry'
 import { useEffect } from 'react'
 import { useRoute } from './lib/route'
+import { useScrollReveals } from './lib/reveal'
 import { followHash, navTo } from './lib/scroll'
 import { PortalProvider } from './portal/store'
 import { Login } from './portal/Login'
@@ -18,6 +19,7 @@ import { ScrollProgress } from './components/ScrollProgress'
 import { Space } from './components/Space'
 
 function Site() {
+  useScrollReveals()
   // Direct section URLs (/#membership), links opened in a new tab, arriving from another route, Back/Forward and edited hashes.
   useEffect(() => {
     let touched = false
@@ -75,7 +77,11 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <PortalProvider>
-        {route === 'login' ? <Login /> : route === 'portal' ? <Portal /> : <Site />}
+        {/* Brief crossfade on arrival. Opacity only (a transform here would break the fixed header) and no exit,
+            so navigation is never delayed and browser history is untouched. */}
+        <motion.div key={route} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35, ease: 'easeOut' }}>
+          {route === 'login' ? <Login /> : route === 'portal' ? <Portal /> : <Site />}
+        </motion.div>
       </PortalProvider>
     </MotionConfig>
   )

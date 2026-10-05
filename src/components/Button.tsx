@@ -10,7 +10,7 @@ const styles: Record<Variant, string> = {
 }
 
 const classes = (variant: Variant, className: string) =>
-  `group inline-flex min-h-12 items-center justify-center gap-2 px-6 text-sm font-semibold uppercase tracking-[0.12em] transition-[color,background-color,border-color,transform] duration-300 active:scale-[0.97] ${styles[variant]} ${className}`
+  `group inline-flex min-h-12 items-center justify-center gap-2 px-6 text-sm font-semibold uppercase tracking-[0.12em] transition-[color,background-color,border-color,translate,scale] duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] ${styles[variant]} ${className}`
 
 const Arrow = () => (
   <ArrowUpRight

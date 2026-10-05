@@ -1,25 +1,17 @@
-import { motion } from 'motion/react'
-import type { ReactNode } from 'react'
+import { createElement, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react'
 
-interface Props {
+interface Props extends Omit<HTMLAttributes<HTMLElement>, 'children' | 'className' | 'style'> {
   children: ReactNode
+  /** Seconds. Keep staggers to about 0.08s a step. */
   delay?: number
   className?: string
-  as?: 'div' | 'li' | 'p' | 'h2' | 'h3'
+  as?: 'div' | 'li' | 'p' | 'h2' | 'h3' | 'ul' | 'span' | 'section' | 'nav'
+  /** up: fades in while rising a little. fade: opacity only. */
+  variant?: 'up' | 'fade'
 }
 
-/** Opacity + small translate reveal. MotionConfig(reducedMotion="user") strips the transform for reduced-motion users. */
-export function Reveal({ children, delay = 0, className, as = 'div' }: Props) {
-  const Tag = motion[as]
-  return (
-    <Tag
-      className={className}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '0px 0px -12% 0px' }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </Tag>
-  )
+/** Marks content for the scroll-reveal system (lib/reveal.ts). The visual states live in index.css. */
+export function Reveal({ children, delay = 0, className, as = 'div', variant = 'up', ...rest }: Props) {
+  const style = delay ? ({ '--reveal-delay': `${Math.round(delay * 1000)}ms` } as CSSProperties) : undefined
+  return createElement(as, { ...rest, className, 'data-reveal': variant, style }, children)
 }

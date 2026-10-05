@@ -20,11 +20,11 @@ export function Intro() {
   const y2 = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-18, 18])
 
   return (
-    <section id="club" tabIndex={-1} data-nav-target className="relative px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-44">
-      <div ref={ref} data-anchor className="mx-auto grid max-w-[105rem] gap-16 lg:grid-cols-12 lg:gap-10">
+    <section id="club" tabIndex={-1} data-nav-target className="section-y relative px-5 sm:px-8 lg:px-12">
+      <div ref={ref} data-anchor className="mx-auto grid max-w-[105rem] gap-x-10 gap-y-[var(--space-head)] lg:grid-cols-12">
         <div className="relative self-start lg:col-span-5">
           <ImageReveal>
-            <div className="group relative overflow-hidden">
+            <div className="group relative">
               <motion.div style={{ y }} className="-my-8">
                 <Picture
                   name="club-main"
@@ -37,7 +37,7 @@ export function Intro() {
           </ImageReveal>
           <motion.div
             style={{ y: y2 }}
-            className="absolute -bottom-10 right-4 hidden w-[46%] border-[6px] border-ink sm:block lg:-right-16 lg:w-[50%]"
+            className="rounded-media absolute -bottom-10 right-4 hidden w-[46%] border-[6px] border-ink sm:block lg:-right-16 lg:w-[50%]"
           >
             <Picture
               name="club-detail"

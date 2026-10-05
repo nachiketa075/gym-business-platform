@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { LogOut, RotateCcw } from 'lucide-react'
 import { navigate } from '../lib/route'
+import { useScrollReveals } from '../lib/reveal'
 import { Logo } from '../components/Logo'
 import { DEMO_ACCOUNTS } from './data'
 import { usePortal } from './store'
@@ -10,6 +11,7 @@ import { OwnerView } from './OwnerView'
 
 export function Portal() {
   const { session, data, dispatch, signOut } = usePortal()
+  useScrollReveals()
 
   useEffect(() => {
     if (!session) navigate('/login')

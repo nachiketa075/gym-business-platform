@@ -81,3 +81,145 @@ dialog[open] { animation: none; }
 /* Sections receive focus after in-page navigation so the next Tab starts inside them. They are not controls, so no ring. */
 [data-nav-target]:focus,
 [data-nav-target]:focus-visible { outline: none; }
+
+/*
+ * Vertical rhythm and media corners: one scale for the whole page.
+ * --space-section  top and bottom padding of every section
+ * --space-head     gap between a section heading and its content
+ * --space-block    gap between stacked blocks inside a section
+ * --space-tile     gap between tiles in the same row or grid
+ * --radius-media   corner radius of content photos and their overlays
+ * (rem-based, so the large-monitor root scaling above grows these too)
+ */
+:root {
+  --space-section: 6.5rem;
+  --space-head: 4rem;
+  --space-block: 2rem;
+  --space-tile: 1rem;
+  --radius-media: 0.75rem;
+}
+@media (min-width: 640px) {
+  :root {
+    --space-section: 8.5rem;
+    --space-head: 5rem;
+    --space-block: 2.25rem;
+    --space-tile: 1.25rem;
+    --radius-media: 1rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --space-section: 10.5rem;
+    --space-head: 6rem;
+    --space-block: 3rem;
+    --space-tile: 1.5rem;
+    --radius-media: 1.125rem;
+  }
+}
+
+@utility section-y { padding-block: var(--space-section); }
+/* The closing call to action is deliberately roomier than the content sections. */
+@utility section-y-cta { padding-block: calc(var(--space-section) * 1.2); }
+@utility section-head-gap { margin-top: var(--space-head); }
+@utility block-gap { margin-top: var(--space-block); }
+@utility tile-gap { gap: var(--space-tile); }
+/* Rounded media must clip its contents (zoom, parallax, overlays), including in Safari, hence the isolated stacking context. */
+@utility rounded-media {
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ------------------------------------------------------------------------------------------------
+   Scroll reveals (see lib/reveal.ts).
+   Everything below is gated on html[data-reveal-armed], which the script sets only once it is running.
+   Without it nothing is hidden, so content can never be stranded by a failed script.
+   Only opacity, transform and clip-path are animated, all on the compositor.
+   ------------------------------------------------------------------------------------------------ */
+:root {
+  --reveal-dur: 0.8s;
+  --reveal-shift: 1.5rem;
+}
+@media (min-width: 1024px) {
+  :root { --reveal-shift: 1.75rem; }
+}
+
+html[data-reveal-armed] [data-reveal='up'],
+html[data-reveal-armed] [data-reveal='fade'],
+html[data-reveal-armed] [data-reveal='zoom'] {
+  transition:
+    opacity var(--reveal-dur) var(--ease-out-expo) var(--reveal-delay, 0ms),
+    transform var(--reveal-dur) var(--ease-out-expo) var(--reveal-delay, 0ms);
+}
+html[data-reveal-armed] [data-reveal='up']:not([data-revealed]) {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-shift), 0);
+}
+html[data-reveal-armed] [data-reveal='fade']:not([data-revealed]) { opacity: 0; }
+html[data-reveal-armed] [data-reveal='zoom']:not([data-revealed]) {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+/* Masked headline lines */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  margin-block: -0.08em;
+  padding-block: 0.08em;
+}
+.reveal-line-inner { display: block; }
+html[data-reveal-armed] [data-reveal='lines'] .reveal-line-inner {
+  transition: transform 1s var(--ease-out-expo) calc(var(--reveal-delay, 0ms) + var(--line, 0) * 110ms);
+}
+html[data-reveal-armed] [data-reveal='lines']:not([data-revealed]) .reveal-line-inner {
+  transform: translate3d(0, 112%, 0);
+}
+
+/* Image wipe + settle. The end state is an explicit inset() so clip-path interpolates (it cannot animate to "none"). */
+html[data-reveal-armed] [data-reveal='image'] {
+  clip-path: inset(0 0 0% 0);
+  transition: clip-path 1.1s cubic-bezier(0.76, 0, 0.24, 1) var(--reveal-delay, 0ms);
+}
+html[data-reveal-armed] [data-reveal='image']:not([data-revealed]) { clip-path: inset(0 0 100% 0); }
+html[data-reveal-armed] [data-reveal='image'] > .reveal-image-inner {
+  transition: transform 1.5s var(--ease-out-expo) var(--reveal-delay, 0ms);
+}
+html[data-reveal-armed] [data-reveal='image']:not([data-revealed]) > .reveal-image-inner {
+  transform: scale(1.18);
+}
+
+/* ------------------------------------------------------------------------------------------------
+   Section continuity.
+   Alternating sections share one palette. The lighter tone (ink-2) melts into the page ink at both of its edges
+   instead of ending on a hard line, and the blend sits inside the section's own empty padding, so it never sits
+   behind content.
+   ------------------------------------------------------------------------------------------------ */
+@utility section-blend {
+  --blend: calc(var(--space-section) * 0.85);
+  background-color: var(--color-ink-2);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-ink) 0,
+    var(--color-ink-2) var(--blend),
+    var(--color-ink-2) calc(100% - var(--blend)),
+    var(--color-ink) 100%
+  );
+}
+
+/* Card feedback: a tonal shift, on devices that can hover. */
+@media (hover: hover) {
+  .card-hover { transition: background-color 0.45s var(--ease-out-expo); }
+  .card-hover:hover { background-color: var(--color-ink-3); }
+  .card-hover-lime:hover { background-color: #b4f01a; }
+}
+
+/* Dialog backdrop eases in and out with the panel (the close is driven from EnquiryDialog via data-closing). */
+@keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes backdrop-out { from { opacity: 1; } to { opacity: 0; } }
+dialog[open]::backdrop { animation: backdrop-in 0.3s ease-out both; }
+dialog[open][data-closing]::backdrop { animation: backdrop-out 0.24s ease-in both; }
+@media (prefers-reduced-motion: reduce) {
+  dialog[open]::backdrop,
+  dialog[open][data-closing]::backdrop { animation-duration: 0.01ms; }
+}

@@ -1,11 +1,9 @@
-import { useRef, type ReactNode } from 'react'
-import { motion, useInView } from 'motion/react'
+import type { CSSProperties, ReactNode } from 'react'
 
 interface Props {
   lines: ReactNode[]
   className?: string
-  /** Animate on mount instead of when scrolled into view. */
-  immediate?: boolean
+  /** Seconds before the first line starts. */
   delay?: number
   as?: 'h1' | 'h2'
   id?: string
@@ -13,25 +11,18 @@ interface Props {
 }
 
 /**
- * Masked line-by-line headline reveal (translate only, so reduced motion simply shows the text).
- * The heading itself is observed: its lines start clipped inside overflow-hidden wrappers, so observing them would never fire.
+ * Headline that rises line by line from behind a mask (translate only). Hidden and revealed by the scroll-reveal
+ * system, so it can never be left stuck under its mask. Lines stagger by 110ms in CSS.
  */
-export function LineReveal({ lines, className, immediate, delay = 0, as: Tag = 'h2', id, lineClassNames = [] }: Props) {
-  const ref = useRef<HTMLHeadingElement>(null)
-  const seen = useInView(ref, { once: true, margin: '0px 0px -10% 0px' })
-  const show = immediate || seen
+export function LineReveal({ lines, className, delay = 0, as: Tag = 'h2', id, lineClassNames = [] }: Props) {
+  const style = delay ? ({ '--reveal-delay': `${Math.round(delay * 1000)}ms` } as CSSProperties) : undefined
   return (
-    <Tag ref={ref} id={id} className={className}>
+    <Tag id={id} className={className} data-reveal="lines" style={style}>
       {lines.map((line, i) => (
-        <span key={i} className="-my-[0.08em] block overflow-hidden py-[0.08em]">
-          <motion.span
-            className={`block ${lineClassNames[i] ?? ''}`}
-            initial={{ y: '112%' }}
-            animate={{ y: show ? 0 : '112%' }}
-            transition={{ duration: 1, delay: delay + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-          >
+        <span key={i} className="reveal-line">
+          <span className={`reveal-line-inner ${lineClassNames[i] ?? ''}`} style={{ '--line': i } as CSSProperties}>
             {line}
-          </motion.span>
+          </span>
         </span>
       ))}
     </Tag>

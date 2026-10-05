@@ -24,15 +24,21 @@ export function Header() {
   }, [])
 
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-      { rootMargin: '-45% 0px -50% 0px' },
-    )
-    nav.forEach((n) => {
-      const el = document.getElementById(n.id)
-      if (el) io.observe(el)
-    })
-    return () => io.disconnect()
+    // The active-section highlight is a nicety: never let a missing or broken observer take the page down.
+    let io: IntersectionObserver | undefined
+    try {
+      io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+        { rootMargin: '-45% 0px -50% 0px' },
+      )
+      nav.forEach((n) => {
+        const el = document.getElementById(n.id)
+        if (el) io?.observe(el)
+      })
+    } catch {
+      /* no highlight, everything else works */
+    }
+    return () => io?.disconnect()
   }, [])
 
   // Menu: lock scroll, Esc to close, trap Tab inside the panel + toggle, move focus in.
@@ -132,13 +138,24 @@ export function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="grid size-12 place-items-center xl:hidden"
+            className="grid size-12 place-items-center transition-[scale] duration-200 active:scale-90 xl:hidden"
             aria-expanded={menu}
             aria-controls="mobile-menu"
             aria-label={menu ? 'Close menu' : 'Open menu'}
             onClick={() => setMenu((m) => !m)}
           >
-            {menu ? <X aria-hidden className="size-6" /> : <Menu aria-hidden className="size-6" />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={menu ? 'close' : 'open'}
+                initial={{ opacity: 0, rotate: menu ? -80 : 80 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: menu ? 80 : -80 }}
+                transition={{ duration: 0.16, ease: 'easeOut' }}
+                className="grid"
+              >
+                {menu ? <X aria-hidden className="size-6" /> : <Menu aria-hidden className="size-6" />}
+              </motion.span>
+            </AnimatePresence>
           </button>
         </div>
       </div>
@@ -148,10 +165,10 @@ export function Header() {
           <motion.div
             id="mobile-menu"
             ref={panelRef}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8, transition: { duration: 0.2, ease: 'easeIn' } }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-x-0 bottom-0 top-16 overflow-y-auto bg-ink px-5 pb-10 pt-6 sm:px-8 xl:hidden"
           >
             <nav aria-label="Mobile">
@@ -177,25 +194,31 @@ export function Header() {
                 ))}
               </ul>
             </nav>
-            <Button
-              className="mt-8 w-full"
-              onClick={() => {
-                closeMenu()
-                open()
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 + nav.length * 0.05, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
-              Book a trial
-            </Button>
-            <button
-              type="button"
-              onClick={() => {
-                closeMenu()
-                navigate('/login')
-              }}
-              className="mt-3 inline-flex min-h-12 w-full items-center justify-center border border-white/40 text-sm font-semibold uppercase tracking-[0.12em] transition-colors hover:border-lime hover:text-lime"
-            >
-              Log in
-            </button>
+              <Button
+                className="mt-8 w-full"
+                onClick={() => {
+                  closeMenu()
+                  open()
+                }}
+              >
+                Book a trial
+              </Button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeMenu()
+                  navigate('/login')
+                }}
+                className="mt-3 inline-flex min-h-12 w-full items-center justify-center border border-white/40 text-sm font-semibold uppercase tracking-[0.12em] transition-[color,border-color,scale] duration-300 active:scale-[0.97] hover:border-lime hover:text-lime"
+              >
+                Log in
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
